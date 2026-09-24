@@ -1,0 +1,1 @@
+{"name":"material-atlas","version":"2.0.0","private":true,"type":"module","scripts":{"build:css":"node build-css.mjs","serve":"python3 -m http.server 8000"},"devDependencies":{"@tailwindcss/postcss":"4.2.1","postcss":"8.5.23","tailwindcss":"4.2.1"}}

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F8FAFC">
+  <meta name="description" content="Open-source, browser-only engineering material exploration and comparison workspace.">
+  <title>Material Atlas — browser material selection workspace</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%232563EB'/%3E%3Cpath d='M13 46V18h7l12 16 12-16h7v28h-7V29L32 45 20 29v17z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">M</span><div><strong>Material Atlas</strong><small>Selection workspace</small></div></div>
+    <nav class="tabs" aria-label="Primary navigation">
+      <button class="tab active" data-view="explore">Explore</button>
+      <button class="tab" data-view="chart" aria-label="Selection chart"><span class="desktop-label" aria-hidden="true">Selection chart</span><span class="mobile-label" aria-hidden="true">Chart</span></button>
+      <button class="tab" data-view="compare">Compare</button>
+      <button class="tab" data-view="library" aria-label="My library"><span class="desktop-label" aria-hidden="true">My library</span><span class="mobile-label" aria-hidden="true">Library</span></button>
+      <button class="tab" data-view="about">About</button>
+    </nav>
+    <div class="header-actions"><button class="button subtle" id="helpButton">Data &amp; method</button><button class="button primary" id="addButton">+ Add material</button></div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <button class="mobile-filter-toggle" id="mobileFilterToggle" type="button" aria-controls="filtersContent" aria-expanded="false"><span>Selection filters</span><strong id="mobileStageSummary">All materials</strong><span class="filter-chevron" aria-hidden="true">⌄</span></button>
+      <div class="filters-content" id="filtersContent">
+      <div class="side-heading"><div><span class="eyebrow">WORKSPACE</span><h2>Selection stages</h2></div><button class="icon-button" id="resetFilters" title="Reset stages" aria-label="Reset selection stages">↺</button></div>
+      <p class="side-copy">Build a shortlist by applying constraints. Missing values fail numeric limits.</p>
+      <section class="side-section"><h3>Material family</h3><div id="familyFilters" class="family-list"></div></section>
+      <section class="side-section"><div class="section-heading"><h3>Property limits</h3><button class="text-button" id="addLimit">+ Add limit</button></div><div id="limits"></div></section>
+      <section class="side-section"><h3>Manufacturing process</h3><select id="processFilter" aria-label="Manufacturing process"><option value="">Any process</option></select></section>
+      <section class="side-section"><h3>Standard and product form</h3><label class="field">Standard<select id="standardFilter" aria-label="Material standard"><option value="">Any standard</option></select></label><label class="field">Product form<select id="formFilter" aria-label="Product form"><option value="">Any product form</option></select></label></section>
+      <div class="side-footer"><strong id="remainingCount">0</strong><span>materials pass your stages</span><button class="button outline full" id="clearStages">Clear all stages</button></div>
+      </div>
+    </aside>
+
+    <main class="main" id="main" tabindex="-1">
+      <div class="page-header"><div><span class="eyebrow" id="viewEyebrow">MATERIAL EXPLORER</span><h1 id="viewTitle">Explore materials</h1><p id="viewDescription">Search, screen, and inspect material records.</p></div><div class="summary"><span id="resultCount">0 results</span><span class="summary-divider"></span><span id="compareCount">0 / 4 compared</span></div></div>
+      <section id="exploreView" class="view"></section>
+      <section id="chartView" class="view" hidden></section>
+      <section id="compareView" class="view" hidden></section>
+      <section id="libraryView" class="view" hidden></section>
+      <section id="aboutView" class="view" hidden></section>
+    </main>
+  </div>
+
+  <dialog id="materialDialog" class="dialog"><form id="materialForm" class="dialog-body" method="dialog"><div class="dialog-header"><div><span class="eyebrow" id="formEyebrow">PERSONAL LIBRARY</span><h2 id="formTitle">Add a material</h2></div><button type="button" class="icon-button" data-close="materialDialog" aria-label="Close">×</button></div><p class="muted">Enter values for a defined grade, condition, and source. Leave unknown properties blank.</p><div class="form-grid" id="materialFields"></div><div class="dialog-actions"><button type="button" class="button outline" data-close="materialDialog">Cancel</button><button type="submit" class="button primary">Save material</button></div></form></dialog>
+  <dialog id="detailDialog" class="dialog"><div class="dialog-body" id="detailContent"></div></dialog>
+  <dialog id="importDialog" class="dialog"><div class="dialog-body import-dialog" id="importContent"></div></dialog>
+  <dialog id="projectDialog" class="dialog"><form class="dialog-body" id="projectForm"><div class="dialog-header"><div><span class="eyebrow">SELECTION PROJECT</span><h2>Save design case</h2></div><button class="icon-button" type="button" data-close="projectDialog" aria-label="Close">×</button></div><p>Save this chart, its stages, selected index and compared materials in this browser.</p><label class="field">Project name<input id="projectName" required maxlength="100" placeholder="Example: Lightweight support bracket"></label><label class="field">Design objective / notes<textarea id="projectObjective" maxlength="1000" rows="4" placeholder="Function, loading case, constraints and decision notes"></textarea></label><div class="dialog-actions"><button class="button outline" type="button" data-close="projectDialog">Cancel</button><button class="button primary" type="submit">Save project</button></div></form></dialog>
+  <dialog id="infoDialog" class="dialog"><div class="dialog-body"><div class="dialog-header"><div><span class="eyebrow">DATA &amp; METHOD</span><h2>Use traceable values</h2></div><button type="button" class="icon-button" data-close="infoDialog" aria-label="Close">×</button></div><p>Material Atlas is an independent open-source selection workspace. Bundled values are illustrative examples, not certified design data.</p><p>Selection stages screen records in this browser. Index calculations compare candidates under stated conditions. Verify results using current manufacturer data, service conditions and governing standards.</p><p>Your records and projects stay on this device. Export a JSON backup before clearing browser data. See the About tab for credits and a short guide.</p><div class="dialog-actions"><button type="button" class="button primary" data-close="infoDialog">Understood</button></div></div></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="./fflate.min.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
