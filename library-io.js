@@ -7,7 +7,7 @@ const FIELDS = [
   'elongation_pct','hardness_hb','fatigue_strength_mpa',
   'fracture_toughness_mpa_sqrt_m','cte_per_k','heat_capacity_j_kg_k',
   'electrical_resistivity_ohm_m','recyclability_pct',
-  'processes','composition','corrosion_notes','availability','source','source_revision','test_temperature_c','notes'
+  'processes','composition','corrosion_notes','availability','source','source_revision','source_date','source_url','evidence_level','test_standard','test_temperature_c','notes'
 ];
 export const COLUMNS = FIELDS;
 export const NUMBERS = new Set([
@@ -30,7 +30,7 @@ export const EXAMPLE = {
   subtype:'Aluminium alloy', grade_condition:'Example temper', standard:'Example only',
   product_form:'Plate', density:2700, modulus:69, yield:275, tensile:310, temp:150,
   thermal:167, cost:4, carbon:9, processes:'Rolling;Machining',
-  source:'Illustrative example — replace with traceable datasheet',
+  source:'Illustrative example — replace with traceable datasheet',evidence_level:'unverified',
   notes:'Delete or replace this example row before importing your real library.'
 };
 
@@ -115,10 +115,11 @@ export function makeXLSXTemplate() {
     ['Material Atlas import guide',''],
     ['Sheet','Fill the Materials sheet. First row contains exact column names. Delete or replace the example row.'],
     ['Required','name and family. Keep grade and condition distinct where properties differ.'],
-    ['Families','Metals; Polymers; Ceramics; Composites; Natural; Other.'],
+    ['Families','Metals; Polymers; Elastomers; Foams; Ceramics; Composites; Natural; Other.'],
     ['Processes','Separate multiple processes with semicolons, e.g. Casting;Machining.'],
     ['Unknown values','Leave the cell blank; do not enter zero unless it is measured zero.'],
-    ['Source','Record a supplier datasheet, revision and relevant test condition.'],
+    ['Source','Record a supplier datasheet, revision/date, URL when available and relevant test condition.'],
+    ['Evidence level','Use unverified, supplier, test or reference. This is a user label, not independent verification.'],
     ['Units','Values in the Materials sheet must use these units; no automatic Excel unit detection.'],
     ...Object.entries(UNITS).map(([key,unit])=>[key,unit]),
     ['Privacy','Files are read in this browser and saved on this device; no server upload.']

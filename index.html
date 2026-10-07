@@ -13,8 +13,10 @@
   <header class="topbar">
     <div class="brand"><span class="brand-mark" aria-hidden="true">M</span><div><strong>Material Atlas</strong><small>Selection workspace</small></div></div>
     <nav class="tabs" aria-label="Primary navigation">
-      <button class="tab active" data-view="explore">Explore</button>
+      <button class="tab active" data-view="home">Home</button>
+      <button class="tab" data-view="explore">Explore</button>
       <button class="tab" data-view="chart" aria-label="Selection chart"><span class="desktop-label" aria-hidden="true">Selection chart</span><span class="mobile-label" aria-hidden="true">Chart</span></button>
+      <button class="tab" data-view="results">Results</button>
       <button class="tab" data-view="compare">Compare</button>
       <button class="tab" data-view="library" aria-label="My library"><span class="desktop-label" aria-hidden="true">My library</span><span class="mobile-label" aria-hidden="true">Library</span></button>
       <button class="tab" data-view="about">About</button>
@@ -38,8 +40,10 @@
 
     <main class="main" id="main" tabindex="-1">
       <div class="page-header"><div><span class="eyebrow" id="viewEyebrow">MATERIAL EXPLORER</span><h1 id="viewTitle">Explore materials</h1><p id="viewDescription">Search, screen, and inspect material records.</p></div><div class="summary"><span id="resultCount">0 results</span><span class="summary-divider"></span><span id="compareCount">0 / 4 compared</span></div></div>
+      <section id="homeView" class="view" hidden></section>
       <section id="exploreView" class="view"></section>
       <section id="chartView" class="view" hidden></section>
+      <section id="resultsView" class="view" hidden></section>
       <section id="compareView" class="view" hidden></section>
       <section id="libraryView" class="view" hidden></section>
       <section id="aboutView" class="view" hidden></section>
@@ -51,8 +55,11 @@
   <dialog id="importDialog" class="dialog"><div class="dialog-body import-dialog" id="importContent"></div></dialog>
   <dialog id="projectDialog" class="dialog"><form class="dialog-body" id="projectForm"><div class="dialog-header"><div><span class="eyebrow">SELECTION PROJECT</span><h2>Save design case</h2></div><button class="icon-button" type="button" data-close="projectDialog" aria-label="Close">×</button></div><p>Save this chart, its stages, selected index and compared materials in this browser.</p><label class="field">Project name<input id="projectName" required maxlength="100" placeholder="Example: Lightweight support bracket"></label><label class="field">Design objective / notes<textarea id="projectObjective" maxlength="1000" rows="4" placeholder="Function, loading case, constraints and decision notes"></textarea></label><div class="dialog-actions"><button class="button outline" type="button" data-close="projectDialog">Cancel</button><button class="button primary" type="submit">Save project</button></div></form></dialog>
   <dialog id="infoDialog" class="dialog"><div class="dialog-body"><div class="dialog-header"><div><span class="eyebrow">DATA &amp; METHOD</span><h2>Use traceable values</h2></div><button type="button" class="icon-button" data-close="infoDialog" aria-label="Close">×</button></div><p>Material Atlas is an independent open-source selection workspace. Bundled values are illustrative examples, not certified design data.</p><p>Selection stages screen records in this browser. Index calculations compare candidates under stated conditions. Verify results using current manufacturer data, service conditions and governing standards.</p><p>Your records and projects stay on this device. Export a JSON backup before clearing browser data. See the About tab for credits and a short guide.</p><div class="dialog-actions"><button type="button" class="button primary" data-close="infoDialog">Understood</button></div></div></dialog>
+  <dialog id="clearDialog" class="dialog"><div class="dialog-body"><div class="dialog-header"><div><span class="eyebrow">LOCAL DATA</span><h2>Clear saved app data</h2></div><button type="button" class="icon-button" data-close="clearDialog" aria-label="Close">×</button></div><p>This removes your personal materials, saved projects, comparisons, hidden samples, filters and chart settings from this browser. The bundled example records remain available. This does not clear other sites or your browser's general cache.</p><p><strong>Export a JSON backup first</strong> if you may need the records later.</p><div class="dialog-actions"><button type="button" class="button outline" data-action="backup">Export backup</button><button type="button" class="button outline" data-close="clearDialog">Cancel</button><button type="button" class="button danger-solid" id="confirmClear">Clear saved data</button></div></div></dialog>
+  <dialog id="axisDialog" class="dialog"><form id="axisForm" class="dialog-body"><div class="dialog-header"><div><span class="eyebrow">PLOT WINDOW</span><h2>Set axis limits</h2></div><button type="button" class="icon-button" data-close="axisDialog" aria-label="Close">×</button></div><p>Use the current axis units. A logarithmic axis requires positive limits.</p><div class="form-grid"><label class="field">X minimum<input id="axisXMin" type="number" step="any" required></label><label class="field">X maximum<input id="axisXMax" type="number" step="any" required></label><label class="field">Y minimum<input id="axisYMin" type="number" step="any" required></label><label class="field">Y maximum<input id="axisYMax" type="number" step="any" required></label></div><div class="dialog-actions"><button type="button" class="button outline" data-close="axisDialog">Cancel</button><button type="submit" class="button primary">Apply limits</button></div></form></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="./fflate.min.js"></script>
+  <script src="./plotly-basic.min.js"></script>
   <script type="module" src="./app.js"></script>
 </body>
 </html>

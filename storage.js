@@ -33,3 +33,14 @@ export function persistWorkspace(value,onError) {
     }
   });return pending;
 }
+export async function clearWorkspace(){
+  await pending.catch(()=>{});
+  let databaseCleared=false;
+  try {
+    const db=await database();
+    await new Promise((resolve,reject)=>{const tx=db.transaction('workspace','readwrite');tx.objectStore('workspace').delete('state');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});
+    databaseCleared=true;
+  } catch(error) {console.warn('Browser database could not be cleared',error)}
+  localStorage.removeItem(NEW_KEY);localStorage.removeItem(OLD_KEY);
+  if(!databaseCleared)throw Error('Saved database could not be cleared. Export a backup and try again.');
+}
