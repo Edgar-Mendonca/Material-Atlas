@@ -1,7 +1,5 @@
 # Material Atlas
 
-An independent, browser-only material selection app created by **Edgar Mendonca** with development assistance from **OpenAI GPT-6 Sol**. Runs as static files on GitHub Pages with no backend or account.
-
 **Current version: 2.3.0.** The Home tab opens each time the site loads; the other tabs open the working tools directly. Your material records and saved projects remain in the browser between visits.
 
 ## Features
